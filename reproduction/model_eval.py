@@ -142,7 +142,7 @@ def launch_shards(
                     "--trigger_topk",
                     "5",
                     "--max_takeovers",
-                    "2",
+                    "1",
                     "--paragraphs_per_takeover",
                     "3",
                     "--save_rollout_trace",
