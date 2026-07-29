@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Train sixteen Relay-OPD updates, save the actor, and evaluate it held out."""
+"""Train sixteen formula-correct L1 Relay updates and evaluate the checkpoint."""
 
 from __future__ import annotations
 
@@ -86,7 +86,7 @@ def main() -> None:
             "TRAIN_DATA": str(train_path),
             "BENCH": str(WORK_DIR / "bench"),
             "OUTPUT_DIR": str(output_dir),
-            "EXP_ID": "formula_correct_relay_l4_sixteen_update",
+            "EXP_ID": "formula_correct_relay_l1_sixteen_update",
             "TRAIN_BATCH_SIZE": "128",
             "PPO_MINI_BATCH_SIZE": "128",
             "MAX_PROMPT_LENGTH": "2048",
@@ -99,7 +99,7 @@ def main() -> None:
             "ACTOR_PPO_MAX_TOKEN_LEN_PER_GPU": "8192",
             "ROLLOUT_LOG_PROB_MAX_TOKEN_LEN_PER_GPU": "8192",
             "TEACHER_MAX_NUM_BATCHED_TOKENS": "4096",
-            "RELAY_OPD_PARAGRAPHS_PER_TAKEOVER": "4",
+            "RELAY_OPD_PARAGRAPHS_PER_TAKEOVER": "1",
             "ROLLOUT_GPU_MEMORY_UTILIZATION": "0.45",
             "TEACHER_GPU_MEMORY_UTILIZATION": "0.45",
             "SAVE_FREQ": "16",
@@ -129,7 +129,7 @@ def main() -> None:
                 "teacher_gpus": 4,
                 "trigger_topk": 5,
                 "max_takeovers": 2,
-                "paragraphs_per_takeover": 4,
+                "paragraphs_per_takeover": 1,
                 "formula_correct_trigger": True,
             },
             sort_keys=True,
