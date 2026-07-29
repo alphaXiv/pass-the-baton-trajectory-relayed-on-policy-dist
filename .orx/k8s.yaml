@@ -1,0 +1,38 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: relay-opd-verify-{{ORX_RUN}}
+spec:
+  completionMode: Indexed
+  completions: 2
+  parallelism: 2
+  backoffLimit: 0
+  activeDeadlineSeconds: 7200
+  template:
+    spec:
+      restartPolicy: Never
+      tolerations:
+        - operator: Exists
+          effect: NoSchedule
+      containers:
+        - name: run
+          image: vllm/vllm-openai:v0.21.0
+          imagePullPolicy: IfNotPresent
+          command: ["bash", "-c", "$ORX_SCRIPT"]
+          resources:
+            requests:
+              nvidia.com/gpu: "8"
+              cpu: "32"
+              memory: 256Gi
+            limits:
+              nvidia.com/gpu: "8"
+              cpu: "96"
+              memory: 512Gi
+          volumeMounts:
+            - name: dshm
+              mountPath: /dev/shm
+      volumes:
+        - name: dshm
+          emptyDir:
+            medium: Memory
+            sizeLimit: 128Gi
