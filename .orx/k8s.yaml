@@ -1,13 +1,10 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: relay-opd-verify-{{ORX_RUN}}
+  name: relay-opd-eval-{{ORX_RUN}}
 spec:
-  completionMode: Indexed
-  completions: 2
-  parallelism: 2
   backoffLimit: 0
-  activeDeadlineSeconds: 7200
+  activeDeadlineSeconds: 14400
   template:
     spec:
       restartPolicy: Never
@@ -22,7 +19,7 @@ spec:
           resources:
             requests:
               nvidia.com/gpu: "8"
-              cpu: "32"
+              cpu: "48"
               memory: 256Gi
             limits:
               nvidia.com/gpu: "8"
