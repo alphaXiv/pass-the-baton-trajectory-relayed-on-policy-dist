@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Run one end-to-end Relay-OPD optimizer update on the paper's models."""
+"""Train sixteen released-trigger Relay updates and evaluate the checkpoint."""
 
 from __future__ import annotations
 
@@ -15,14 +15,14 @@ from huggingface_hub import hf_hub_download, snapshot_download
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 VERL_OPD_DIR = REPO_ROOT / "relay-opd"
-WORK_DIR = Path("/tmp/relay-opd-one-update")
+WORK_DIR = Path("/tmp/relay-opd-released-sixteen-update")
 STUDENT_REPO = "Qwen/Qwen3-1.7B"
 TEACHER_REPO = "Qwen/Qwen3-4B-Instruct-2507"
 DATA_REPO = "BytedTsinghua-SIA/DAPO-Math-17k"
 DATA_FILE = "data/dapo-math-17k.parquet"
 
 
-def prepare_inputs() -> tuple[Path, Path, Path, Path]:
+def prepare_inputs() -> tuple[Path, Path, Path, Path, Path]:
     models_dir = WORK_DIR / "models"
     data_dir = WORK_DIR / "data"
     bench_dir = WORK_DIR / "bench"
@@ -51,26 +51,33 @@ def prepare_inputs() -> tuple[Path, Path, Path, Path]:
             repo_type="dataset",
         )
     )
-    frame = pd.read_parquet(source).head(128).copy()
-    train_path = data_dir / "dapo128.parquet"
-    frame.to_parquet(train_path, index=False)
+    frame = pd.read_parquet(source).head(16512).copy()
+    train = frame.iloc[:2048].copy()
+    heldout = frame.iloc[16384:16512].copy()
+    train_path = data_dir / "dapo2048.parquet"
+    # The official evaluator maps its generic DAPO entry to dapo128.parquet.
+    heldout_path = bench_dir / "dapo128.parquet"
+    train.to_parquet(train_path, index=False)
+    heldout.to_parquet(heldout_path, index=False)
 
     # The official trainer constructs validation datasets even when validation
     # is disabled. These schema-compatible placeholders are never evaluated.
-    validation = frame.head(8).copy()
+    validation = heldout.head(8).copy()
     validation.to_parquet(bench_dir / "aime-24_verl.parquet", index=False)
     validation.to_parquet(bench_dir / "aime-2025_verl.parquet", index=False)
     print(
-        f"[data] source={DATA_REPO}/{DATA_FILE} rows={len(frame)} "
-        f"train={train_path} validation_enabled=False",
+        f"[data] source={DATA_REPO}/{DATA_FILE} train_rows={len(train)} "
+        f"heldout_rows={len(heldout)} train_slice=0:2048 "
+        f"heldout_slice=16384:16512 "
+        f"train={train_path} heldout={heldout_path} validation_enabled=False",
         flush=True,
     )
-    return student, teacher, train_path, output_dir
+    return student, teacher, train_path, heldout_path, output_dir
 
 
 def main() -> None:
     started = time.monotonic()
-    student, teacher, train_path, output_dir = prepare_inputs()
+    student, teacher, train_path, heldout_path, output_dir = prepare_inputs()
     env = os.environ.copy()
     env.update(
         {
@@ -79,7 +86,7 @@ def main() -> None:
             "TRAIN_DATA": str(train_path),
             "BENCH": str(WORK_DIR / "bench"),
             "OUTPUT_DIR": str(output_dir),
-            "EXP_ID": "formula_correct_relay_one_update",
+            "EXP_ID": "released_trigger_relay_l4_sixteen_update",
             "TRAIN_BATCH_SIZE": "128",
             "PPO_MINI_BATCH_SIZE": "128",
             "MAX_PROMPT_LENGTH": "2048",
@@ -92,9 +99,10 @@ def main() -> None:
             "ACTOR_PPO_MAX_TOKEN_LEN_PER_GPU": "8192",
             "ROLLOUT_LOG_PROB_MAX_TOKEN_LEN_PER_GPU": "8192",
             "TEACHER_MAX_NUM_BATCHED_TOKENS": "4096",
+            "RELAY_OPD_PARAGRAPHS_PER_TAKEOVER": "4",
             "ROLLOUT_GPU_MEMORY_UTILIZATION": "0.45",
             "TEACHER_GPU_MEMORY_UTILIZATION": "0.45",
-            "SAVE_FREQ": "-1",
+            "SAVE_FREQ": "16",
             "TEST_FREQ": "-1",
             "VAL_BEFORE_TRAIN": "False",
             "TOTAL_EPOCHS": "1",
@@ -104,7 +112,7 @@ def main() -> None:
     command = [
         "bash",
         "opd/scripts/relay_opd/train.sh",
-        "trainer.total_training_steps=1",
+        "trainer.total_training_steps=16",
     ]
     print(
         "TRAINING_CONFIG "
@@ -112,14 +120,16 @@ def main() -> None:
             {
                 "student": STUDENT_REPO,
                 "teacher": TEACHER_REPO,
-                "train_rows": 128,
+                "train_rows": 2048,
+                "heldout_rows": 128,
+                "heldout_slice": "16384:16512",
                 "response_budget": 2048,
-                "updates": 1,
+                "updates": 16,
                 "actor_gpus": 4,
                 "teacher_gpus": 4,
                 "trigger_topk": 5,
                 "max_takeovers": 2,
-                "paragraphs_per_takeover": 3,
+                "paragraphs_per_takeover": 4,
                 "formula_correct_trigger": False,
                 "method": "released_relay_opd",
             },
@@ -128,12 +138,44 @@ def main() -> None:
         flush=True,
     )
     subprocess.run(command, cwd=VERL_OPD_DIR, env=env, check=True)
+    checkpoint = output_dir / "global_step_16" / "actor" / "huggingface"
+    if not (checkpoint / "config.json").is_file():
+        raise FileNotFoundError(f"Expected full HF checkpoint at {checkpoint}")
+    checkpoint_bytes = sum(
+        path.stat().st_size for path in checkpoint.rglob("*") if path.is_file()
+    )
+    print(
+        "CHECKPOINT_EVIDENCE "
+        + json.dumps(
+            {
+                "path": str(checkpoint),
+                "bytes": checkpoint_bytes,
+                "global_step": 16,
+                "config_present": True,
+            },
+            sort_keys=True,
+        ),
+        flush=True,
+    )
+    subprocess.run(["ray", "stop", "--force"], check=False)
+    eval_command = [
+        "python3",
+        str(REPO_ROOT / "reproduction" / "checkpoint_eval.py"),
+        "--base_model",
+        str(student),
+        "--trained_model",
+        str(checkpoint),
+        "--data",
+        str(heldout_path),
+    ]
+    subprocess.run(eval_command, cwd=REPO_ROOT, env=env, check=True)
     print(
         "TRAINING_EVIDENCE "
         + json.dumps(
             {
                 "status": "PASS",
-                "optimizer_updates": 1,
+                "optimizer_updates": 16,
+                "checkpoint_evaluated": True,
                 "wall_seconds": time.monotonic() - started,
             },
             sort_keys=True,
