@@ -18,7 +18,7 @@ spec:
         - name: run
           image: vllm/vllm-openai:v0.21.0
           imagePullPolicy: IfNotPresent
-          command: ["bash", "-c", "$ORX_SCRIPT"]
+          command: ["bash", "-c", "eval \"$ORX_SCRIPT\""]
           resources:
             requests:
               nvidia.com/gpu: "8"
