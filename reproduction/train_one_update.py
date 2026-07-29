@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Train sixteen released-trigger Relay updates and evaluate the checkpoint."""
+"""Train sixteen released-trigger M1 L4 Relay updates."""
 
 from __future__ import annotations
 
@@ -15,7 +15,7 @@ from huggingface_hub import hf_hub_download, snapshot_download
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 VERL_OPD_DIR = REPO_ROOT / "relay-opd"
-WORK_DIR = Path("/tmp/relay-opd-released-sixteen-update")
+WORK_DIR = Path("/tmp/relay-opd-released-m1-l4-sixteen-update")
 STUDENT_REPO = "Qwen/Qwen3-1.7B"
 TEACHER_REPO = "Qwen/Qwen3-4B-Instruct-2507"
 DATA_REPO = "BytedTsinghua-SIA/DAPO-Math-17k"
@@ -86,7 +86,7 @@ def main() -> None:
             "TRAIN_DATA": str(train_path),
             "BENCH": str(WORK_DIR / "bench"),
             "OUTPUT_DIR": str(output_dir),
-            "EXP_ID": "released_trigger_relay_l4_sixteen_update",
+            "EXP_ID": "released_trigger_relay_m1_l4_sixteen_update",
             "TRAIN_BATCH_SIZE": "128",
             "PPO_MINI_BATCH_SIZE": "128",
             "MAX_PROMPT_LENGTH": "2048",
@@ -99,6 +99,7 @@ def main() -> None:
             "ACTOR_PPO_MAX_TOKEN_LEN_PER_GPU": "8192",
             "ROLLOUT_LOG_PROB_MAX_TOKEN_LEN_PER_GPU": "8192",
             "TEACHER_MAX_NUM_BATCHED_TOKENS": "4096",
+            "RELAY_OPD_MAX_TAKEOVERS": "1",
             "RELAY_OPD_PARAGRAPHS_PER_TAKEOVER": "4",
             "ROLLOUT_GPU_MEMORY_UTILIZATION": "0.45",
             "TEACHER_GPU_MEMORY_UTILIZATION": "0.45",
@@ -128,7 +129,7 @@ def main() -> None:
                 "actor_gpus": 4,
                 "teacher_gpus": 4,
                 "trigger_topk": 5,
-                "max_takeovers": 2,
+                "max_takeovers": 1,
                 "paragraphs_per_takeover": 4,
                 "formula_correct_trigger": False,
                 "method": "released_relay_opd",
