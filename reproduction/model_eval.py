@@ -140,7 +140,7 @@ def launch_shards(
                     "--rollout_mode",
                     "relay",
                     "--trigger_topk",
-                    "5",
+                    "10",
                     "--max_takeovers",
                     "2",
                     "--paragraphs_per_takeover",
