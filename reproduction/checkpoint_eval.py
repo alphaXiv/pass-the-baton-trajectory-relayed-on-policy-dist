@@ -19,9 +19,10 @@ N_SHARDS = 8
 N_PROBLEMS = 128
 MAX_NEW = 2048
 SEED = 314159
+N_REPEATS = 3
 
 
-def evaluate(label: str, model: Path, data: Path) -> dict:
+def evaluate(label: str, model: Path, data: Path, seed: int) -> dict:
     output_root = data.parent / f"checkpoint_eval_{label}"
     log_root = data.parent / f"checkpoint_eval_logs_{label}"
     output_root.mkdir(parents=True, exist_ok=True)
@@ -62,7 +63,7 @@ def evaluate(label: str, model: Path, data: Path) -> dict:
             "--shard_id",
             str(shard_id),
             "--seed",
-            str(SEED),
+            str(seed),
             "--disable_thinking",
             "--out_dir",
             str(shard_out),
@@ -120,6 +121,7 @@ def evaluate(label: str, model: Path, data: Path) -> dict:
     sorted_lengths = sorted(lengths)
     result = {
         "label": label,
+        "seed": seed,
         "model": str(model),
         "n": len(records),
         "accuracy": sum(correct) / len(correct),
@@ -143,20 +145,57 @@ def main() -> None:
     parser.add_argument("--trained_model", type=Path, required=True)
     parser.add_argument("--data", type=Path, required=True)
     args = parser.parse_args()
-    base = evaluate("base", args.base_model, args.data)
-    trained = evaluate("trained", args.trained_model, args.data)
-    comparison = {
-        "accuracy_delta": trained["accuracy"] - base["accuracy"],
-        "correct_delta": trained["correct"] - base["correct"],
-        "mean_gen_tokens_delta": (
-            trained["mean_gen_tokens"] - base["mean_gen_tokens"]
+    comparisons = []
+    base_results = []
+    trained_results = []
+    for repeat in range(N_REPEATS):
+        seed = SEED + repeat
+        base = evaluate(f"base_r{repeat}", args.base_model, args.data, seed)
+        trained = evaluate(
+            f"trained_r{repeat}", args.trained_model, args.data, seed
+        )
+        base_results.append(base)
+        trained_results.append(trained)
+        comparison = {
+            "repeat": repeat,
+            "seed": seed,
+            "accuracy_delta": trained["accuracy"] - base["accuracy"],
+            "correct_delta": trained["correct"] - base["correct"],
+            "mean_gen_tokens_delta": (
+                trained["mean_gen_tokens"] - base["mean_gen_tokens"]
+            ),
+            "base_accuracy": base["accuracy"],
+            "trained_accuracy": trained["accuracy"],
+        }
+        comparisons.append(comparison)
+        print(
+            "CHECKPOINT_EVAL_COMPARISON "
+            + json.dumps(comparison, sort_keys=True),
+            flush=True,
+        )
+
+    aggregate = {
+        "repeats": N_REPEATS,
+        "evaluations_per_model": N_REPEATS * N_PROBLEMS,
+        "base_accuracy_mean": statistics.fmean(
+            result["accuracy"] for result in base_results
         ),
-        "base_accuracy": base["accuracy"],
-        "trained_accuracy": trained["accuracy"],
+        "trained_accuracy_mean": statistics.fmean(
+            result["accuracy"] for result in trained_results
+        ),
+        "accuracy_delta_mean": statistics.fmean(
+            result["accuracy_delta"] for result in comparisons
+        ),
+        "correct_delta_mean": statistics.fmean(
+            result["correct_delta"] for result in comparisons
+        ),
+        "correct_deltas": [
+            result["correct_delta"] for result in comparisons
+        ],
     }
     print(
-        "CHECKPOINT_EVAL_COMPARISON "
-        + json.dumps(comparison, sort_keys=True),
+        "CHECKPOINT_EVAL_AGGREGATE "
+        + json.dumps(aggregate, sort_keys=True),
         flush=True,
     )
 
