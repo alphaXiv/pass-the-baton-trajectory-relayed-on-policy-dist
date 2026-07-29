@@ -27,6 +27,12 @@ case "${REPRO_MODE}" in
     cd "${REPO_ROOT}"
     python3 reproduction/relay_invariants.py
     ;;
+  criterion_audit)
+    python3 -m pip install --disable-pip-version-check --no-cache-dir \
+      --no-deps -e .
+    cd "${REPO_ROOT}"
+    python3 reproduction/criterion_audit.py
+    ;;
   *)
     echo "Unknown REPRO_MODE=${REPRO_MODE}" >&2
     exit 64
