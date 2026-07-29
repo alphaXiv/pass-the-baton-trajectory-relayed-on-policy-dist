@@ -41,6 +41,14 @@ case "${REPRO_MODE}" in
     cd "${REPO_ROOT}"
     python3 reproduction/model_eval.py --mode "${MODEL_EVAL_MODE}"
     ;;
+  train_one_update)
+    python3 -m pip install --disable-pip-version-check --no-cache-dir \
+      -r "${REPO_ROOT}/reproduction/training-requirements.txt"
+    python3 -m pip install --disable-pip-version-check --no-cache-dir \
+      --no-deps -e .
+    cd "${REPO_ROOT}"
+    python3 reproduction/train_one_update.py
+    ;;
   *)
     echo "Unknown REPRO_MODE=${REPRO_MODE}" >&2
     exit 64
