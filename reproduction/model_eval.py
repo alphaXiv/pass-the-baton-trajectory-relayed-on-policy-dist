@@ -144,7 +144,7 @@ def launch_shards(
                     "--max_takeovers",
                     "2",
                     "--paragraphs_per_takeover",
-                    "3",
+                    "1",
                     "--save_rollout_trace",
                     "--trace_mode",
                     "mask",
