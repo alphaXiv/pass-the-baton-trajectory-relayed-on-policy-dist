@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Train four standard-OPD updates, save the actor, and evaluate it held out."""
+"""Train sixteen standard-OPD updates, save the actor, and evaluate it held out."""
 
 from __future__ import annotations
 
@@ -15,7 +15,7 @@ from huggingface_hub import hf_hub_download, snapshot_download
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 VERL_OPD_DIR = REPO_ROOT / "relay-opd"
-WORK_DIR = Path("/tmp/relay-opd-four-update")
+WORK_DIR = Path("/tmp/relay-opd-sixteen-update")
 STUDENT_REPO = "Qwen/Qwen3-1.7B"
 TEACHER_REPO = "Qwen/Qwen3-4B-Instruct-2507"
 DATA_REPO = "BytedTsinghua-SIA/DAPO-Math-17k"
@@ -51,10 +51,10 @@ def prepare_inputs() -> tuple[Path, Path, Path, Path, Path]:
             repo_type="dataset",
         )
     )
-    frame = pd.read_parquet(source).head(640).copy()
-    train = frame.iloc[:512].copy()
-    heldout = frame.iloc[512:640].copy()
-    train_path = data_dir / "dapo512.parquet"
+    frame = pd.read_parquet(source).head(16512).copy()
+    train = frame.iloc[:2048].copy()
+    heldout = frame.iloc[16384:16512].copy()
+    train_path = data_dir / "dapo2048.parquet"
     # The official evaluator maps its generic DAPO entry to dapo128.parquet.
     heldout_path = bench_dir / "dapo128.parquet"
     train.to_parquet(train_path, index=False)
@@ -67,7 +67,8 @@ def prepare_inputs() -> tuple[Path, Path, Path, Path, Path]:
     validation.to_parquet(bench_dir / "aime-2025_verl.parquet", index=False)
     print(
         f"[data] source={DATA_REPO}/{DATA_FILE} train_rows={len(train)} "
-        f"heldout_rows={len(heldout)} train_slice=0:512 heldout_slice=512:640 "
+        f"heldout_rows={len(heldout)} train_slice=0:2048 "
+        f"heldout_slice=16384:16512 "
         f"train={train_path} heldout={heldout_path} validation_enabled=False",
         flush=True,
     )
@@ -85,7 +86,7 @@ def main() -> None:
             "TRAIN_DATA": str(train_path),
             "BENCH": str(WORK_DIR / "bench"),
             "OUTPUT_DIR": str(output_dir),
-            "EXP_ID": "standard_opd_four_update",
+            "EXP_ID": "standard_opd_sixteen_update",
             "TRAIN_BATCH_SIZE": "128",
             "PPO_MINI_BATCH_SIZE": "128",
             "MAX_PROMPT_LENGTH": "2048",
@@ -100,7 +101,7 @@ def main() -> None:
             "TEACHER_MAX_NUM_BATCHED_TOKENS": "4096",
             "ROLLOUT_GPU_MEMORY_UTILIZATION": "0.45",
             "TEACHER_GPU_MEMORY_UTILIZATION": "0.45",
-            "SAVE_FREQ": "4",
+            "SAVE_FREQ": "16",
             "TEST_FREQ": "-1",
             "VAL_BEFORE_TRAIN": "False",
             "TOTAL_EPOCHS": "1",
@@ -110,7 +111,7 @@ def main() -> None:
     command = [
         "bash",
         "opd/scripts/baselines/opd.sh",
-        "trainer.total_training_steps=4",
+        "trainer.total_training_steps=16",
     ]
     print(
         "TRAINING_CONFIG "
@@ -118,11 +119,11 @@ def main() -> None:
             {
                 "student": STUDENT_REPO,
                 "teacher": TEACHER_REPO,
-                "train_rows": 512,
+                "train_rows": 2048,
                 "heldout_rows": 128,
-                "heldout_slice": "512:640",
+                "heldout_slice": "16384:16512",
                 "response_budget": 2048,
-                "updates": 4,
+                "updates": 16,
                 "actor_gpus": 4,
                 "teacher_gpus": 4,
                 "method": "standard_k1_opd",
@@ -132,7 +133,7 @@ def main() -> None:
         flush=True,
     )
     subprocess.run(command, cwd=VERL_OPD_DIR, env=env, check=True)
-    checkpoint = output_dir / "global_step_4" / "actor" / "huggingface"
+    checkpoint = output_dir / "global_step_16" / "actor" / "huggingface"
     if not (checkpoint / "config.json").is_file():
         raise FileNotFoundError(f"Expected full HF checkpoint at {checkpoint}")
     checkpoint_bytes = sum(
@@ -144,7 +145,7 @@ def main() -> None:
             {
                 "path": str(checkpoint),
                 "bytes": checkpoint_bytes,
-                "global_step": 4,
+                "global_step": 16,
                 "config_present": True,
             },
             sort_keys=True,
@@ -168,7 +169,7 @@ def main() -> None:
         + json.dumps(
             {
                 "status": "PASS",
-                "optimizer_updates": 4,
+                "optimizer_updates": 16,
                 "checkpoint_evaluated": True,
                 "wall_seconds": time.monotonic() - started,
             },
