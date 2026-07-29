@@ -33,6 +33,14 @@ case "${REPRO_MODE}" in
     cd "${REPO_ROOT}"
     python3 reproduction/criterion_audit.py
     ;;
+  model_eval)
+    python3 -m pip install --disable-pip-version-check --no-cache-dir \
+      --no-deps -e .
+    python3 -m pip install --disable-pip-version-check --no-cache-dir \
+      "math-verify==0.9.0" "pandas==3.0.5" "pyarrow==25.0.0"
+    cd "${REPO_ROOT}"
+    python3 reproduction/model_eval.py --mode "${MODEL_EVAL_MODE}"
+    ;;
   *)
     echo "Unknown REPRO_MODE=${REPRO_MODE}" >&2
     exit 64
