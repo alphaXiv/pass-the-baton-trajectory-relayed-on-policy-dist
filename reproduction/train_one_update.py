@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Run one end-to-end Relay-OPD optimizer update on the paper's models."""
+"""Run one matched standard-OPD optimizer update on the paper's models."""
 
 from __future__ import annotations
 
@@ -79,7 +79,7 @@ def main() -> None:
             "TRAIN_DATA": str(train_path),
             "BENCH": str(WORK_DIR / "bench"),
             "OUTPUT_DIR": str(output_dir),
-            "EXP_ID": "formula_correct_relay_one_update",
+            "EXP_ID": "standard_opd_one_update",
             "TRAIN_BATCH_SIZE": "128",
             "PPO_MINI_BATCH_SIZE": "128",
             "MAX_PROMPT_LENGTH": "2048",
@@ -103,7 +103,7 @@ def main() -> None:
     )
     command = [
         "bash",
-        "opd/scripts/relay_opd/train.sh",
+        "opd/scripts/baselines/opd.sh",
         "trainer.total_training_steps=1",
     ]
     print(
@@ -117,10 +117,7 @@ def main() -> None:
                 "updates": 1,
                 "actor_gpus": 4,
                 "teacher_gpus": 4,
-                "trigger_topk": 5,
-                "max_takeovers": 2,
-                "paragraphs_per_takeover": 3,
-                "formula_correct_trigger": True,
+                "method": "standard_k1_opd",
             },
             sort_keys=True,
         ),
