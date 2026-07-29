@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Train sixteen released-trigger M1 L4 Relay updates."""
+"""Train released-trigger M1 L4 Relay with a 1024-token response budget."""
 
 from __future__ import annotations
 
@@ -15,7 +15,7 @@ from huggingface_hub import hf_hub_download, snapshot_download
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 VERL_OPD_DIR = REPO_ROOT / "relay-opd"
-WORK_DIR = Path("/tmp/relay-opd-released-m1-l4-sixteen-update")
+WORK_DIR = Path("/tmp/relay-opd-released-m1-l4-response1024")
 STUDENT_REPO = "Qwen/Qwen3-1.7B"
 TEACHER_REPO = "Qwen/Qwen3-4B-Instruct-2507"
 DATA_REPO = "BytedTsinghua-SIA/DAPO-Math-17k"
@@ -86,14 +86,14 @@ def main() -> None:
             "TRAIN_DATA": str(train_path),
             "BENCH": str(WORK_DIR / "bench"),
             "OUTPUT_DIR": str(output_dir),
-            "EXP_ID": "released_trigger_relay_m1_l4_sixteen_update",
+            "EXP_ID": "released_trigger_relay_m1_l4_response1024",
             "TRAIN_BATCH_SIZE": "128",
             "PPO_MINI_BATCH_SIZE": "128",
             "MAX_PROMPT_LENGTH": "2048",
-            "MAX_RESPONSE_LENGTH": "2048",
+            "MAX_RESPONSE_LENGTH": "1024",
             "VAL_MAX_RESPONSE_LENGTH": "2048",
-            "ROLLOUT_MAX_MODEL_LEN": "4097",
-            "TEACHER_MAX_MODEL_LEN": "4097",
+            "ROLLOUT_MAX_MODEL_LEN": "3073",
+            "TEACHER_MAX_MODEL_LEN": "3073",
             "ACTOR_GPUS_PER_NODE": "4",
             "TEACHER_GPUS_PER_NODE": "4",
             "ACTOR_PPO_MAX_TOKEN_LEN_PER_GPU": "8192",
@@ -124,7 +124,8 @@ def main() -> None:
                 "train_rows": 2048,
                 "heldout_rows": 128,
                 "heldout_slice": "16384:16512",
-                "response_budget": 2048,
+                "response_budget": 1024,
+                "evaluation_response_budget": 2048,
                 "updates": 16,
                 "actor_gpus": 4,
                 "teacher_gpus": 4,
