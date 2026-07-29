@@ -14,13 +14,18 @@ nvidia-smi --query-gpu=index,name,memory.total --format=csv,noheader
 
 cd "${REPO_ROOT}/relay-opd"
 
-python3 -m pip install --disable-pip-version-check --no-cache-dir -e .
-python3 -m pip install --disable-pip-version-check --no-cache-dir \
-  -r requirements-relay-opd.txt
-
 case "${REPRO_MODE}" in
   verify)
+    python3 -m pip install --disable-pip-version-check --no-cache-dir -e .
+    python3 -m pip install --disable-pip-version-check --no-cache-dir \
+      -r requirements-relay-opd.txt
     RELAY_OPD_REQUIRE_CUDA=1 python3 environment/verify_install.py
+    ;;
+  relay_invariants)
+    python3 -m pip install --disable-pip-version-check --no-cache-dir \
+      --no-deps -e .
+    cd "${REPO_ROOT}"
+    python3 reproduction/relay_invariants.py
     ;;
   *)
     echo "Unknown REPRO_MODE=${REPRO_MODE}" >&2
