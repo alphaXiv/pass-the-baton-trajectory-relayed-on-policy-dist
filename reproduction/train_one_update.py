@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Evaluate released K5/1024 after twelve updates."""
+"""Third-seed replication of released K5/1024 after twelve updates."""
 
 from __future__ import annotations
 
@@ -15,7 +15,9 @@ from huggingface_hub import hf_hub_download, snapshot_download
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 VERL_OPD_DIR = REPO_ROOT / "relay-opd"
-WORK_DIR = Path("/tmp/relay-opd-released-m1-l4-response1024-step12-eval512")
+WORK_DIR = Path(
+    "/tmp/relay-opd-released-m1-l4-response1024-step12-eval512-replica3"
+)
 STUDENT_REPO = "Qwen/Qwen3-1.7B"
 TEACHER_REPO = "Qwen/Qwen3-4B-Instruct-2507"
 DATA_REPO = "BytedTsinghua-SIA/DAPO-Math-17k"
@@ -86,7 +88,10 @@ def main() -> None:
             "TRAIN_DATA": str(train_path),
             "BENCH": str(WORK_DIR / "bench"),
             "OUTPUT_DIR": str(output_dir),
-            "EXP_ID": "released_trigger_relay_m1_l4_response1024_step12_eval512",
+            "EXP_ID": (
+                "released_trigger_relay_m1_l4_response1024_step12_"
+                "eval512_replica3"
+            ),
             "TRAIN_BATCH_SIZE": "128",
             "PPO_MINI_BATCH_SIZE": "128",
             "MAX_PROMPT_LENGTH": "2048",
@@ -114,6 +119,9 @@ def main() -> None:
         "bash",
         "opd/scripts/relay_opd/train.sh",
         "trainer.total_training_steps=12",
+        "data.seed=2718",
+        "actor_rollout_ref.actor.data_loader_seed=2718",
+        "actor_rollout_ref.actor.fsdp_config.seed=2718",
     ]
     print(
         "TRAINING_CONFIG "
@@ -127,6 +135,7 @@ def main() -> None:
                 "response_budget": 1024,
                 "evaluation_response_budget": 2048,
                 "updates": 12,
+                "training_seed": 2718,
                 "actor_gpus": 4,
                 "teacher_gpus": 4,
                 "trigger_topk": 5,
