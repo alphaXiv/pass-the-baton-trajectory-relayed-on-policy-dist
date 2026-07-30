@@ -19,7 +19,7 @@ N_SHARDS = 8
 N_PROBLEMS = 512
 MAX_NEW = 2048
 SEED = 314159
-N_REPEATS = 3
+N_REPEATS = 2
 
 
 def evaluate(label: str, model: Path, data: Path, seed: int) -> dict:
