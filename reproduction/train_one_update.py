@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Evaluate the promoted Relay recipe at half learning rate."""
+"""Evaluate the promoted Relay recipe at three-quarter learning rate."""
 
 from __future__ import annotations
 
@@ -15,7 +15,7 @@ from huggingface_hub import hf_hub_download, snapshot_download
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 VERL_OPD_DIR = REPO_ROOT / "relay-opd"
-WORK_DIR = Path("/tmp/relay-opd-released-m1-l4-response1536-lr5e-7")
+WORK_DIR = Path("/tmp/relay-opd-released-m1-l4-response1536-lr7p5e-7")
 STUDENT_REPO = "Qwen/Qwen3-1.7B"
 TEACHER_REPO = "Qwen/Qwen3-4B-Instruct-2507"
 DATA_REPO = "BytedTsinghua-SIA/DAPO-Math-17k"
@@ -86,7 +86,7 @@ def main() -> None:
             "TRAIN_DATA": str(train_path),
             "BENCH": str(WORK_DIR / "bench"),
             "OUTPUT_DIR": str(output_dir),
-            "EXP_ID": "released_trigger_relay_m1_l4_response1536_lr5e_7",
+            "EXP_ID": "released_trigger_relay_m1_l4_response1536_lr7p5e_7",
             "TRAIN_BATCH_SIZE": "128",
             "PPO_MINI_BATCH_SIZE": "128",
             "MAX_PROMPT_LENGTH": "2048",
@@ -126,7 +126,7 @@ def main() -> None:
                 "heldout_slice": "16384:16512",
                 "response_budget": 1536,
                 "updates": 16,
-                "actor_lr": 5e-7,
+                "actor_lr": 7.5e-7,
                 "actor_gpus": 4,
                 "teacher_gpus": 4,
                 "trigger_topk": 5,
