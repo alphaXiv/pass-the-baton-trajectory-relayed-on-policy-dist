@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Evaluate the promoted Relay recipe on 512 held-out problems."""
+"""Independently replicate optimized Relay on 512 held-out problems."""
 
 from __future__ import annotations
 
@@ -15,7 +15,7 @@ from huggingface_hub import hf_hub_download, snapshot_download
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 VERL_OPD_DIR = REPO_ROOT / "relay-opd"
-WORK_DIR = Path("/tmp/relay-opd-released-m1-l4-response1536-eval512")
+WORK_DIR = Path("/tmp/relay-opd-released-m1-l4-response1536-eval512-replica2")
 STUDENT_REPO = "Qwen/Qwen3-1.7B"
 TEACHER_REPO = "Qwen/Qwen3-4B-Instruct-2507"
 DATA_REPO = "BytedTsinghua-SIA/DAPO-Math-17k"
@@ -86,7 +86,7 @@ def main() -> None:
             "TRAIN_DATA": str(train_path),
             "BENCH": str(WORK_DIR / "bench"),
             "OUTPUT_DIR": str(output_dir),
-            "EXP_ID": "released_trigger_relay_m1_l4_response1536_eval512",
+            "EXP_ID": "released_trigger_relay_m1_l4_response1536_eval512_replica2",
             "TRAIN_BATCH_SIZE": "128",
             "PPO_MINI_BATCH_SIZE": "128",
             "MAX_PROMPT_LENGTH": "2048",
