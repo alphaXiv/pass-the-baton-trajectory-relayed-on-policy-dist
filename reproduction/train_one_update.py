@@ -106,7 +106,7 @@ def main() -> None:
             "SAVE_FREQ": "20",
             "TEST_FREQ": "-1",
             "VAL_BEFORE_TRAIN": "False",
-            "TOTAL_EPOCHS": "1",
+            "TOTAL_EPOCHS": "2",
             "WANDB_MODE": "disabled",
         }
     )
