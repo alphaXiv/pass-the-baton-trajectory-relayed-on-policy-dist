@@ -1071,7 +1071,10 @@ def _relay_opd_rejection_sample(
     k = min(trigger_topk, draft_probs_aligned.shape[-1])
     student_topk_ids = draft_probs_aligned.topk(k=k, dim=-1).indices
     teacher_in_student_topk = student_topk_ids.eq(gather_ids).any(dim=-1)
-    stop_candidate = raw_trigger_candidate & ~teacher_in_student_topk
+    student_topk_has_reflection = torch.isin(
+        student_topk_ids, reflection_token_ids
+    ).any(dim=-1)
+    stop_candidate = raw_trigger_candidate & ~student_topk_has_reflection
     trigger_topk_threshold = torch.where(
         stop_candidate,
         torch.full((num_tokens,), int(trigger_topk), dtype=torch.int32, device=device),
@@ -1080,6 +1083,10 @@ def _relay_opd_rejection_sample(
     _stats_add("relay_reflection_candidates", raw_trigger_candidate)
     _stats_add("relay_divergence_triggers", stop_candidate)
     _stats_add("relay_teacher_argmax_in_student_topk", raw_trigger_candidate & teacher_in_student_topk)
+    _stats_add(
+        "relay_student_topk_has_reflection",
+        raw_trigger_candidate & student_topk_has_reflection,
+    )
 
     relay_trigger_candidate = torch.zeros_like(stop_candidate)
     if takeover_enabled and stop_candidate.any():
