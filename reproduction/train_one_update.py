@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Replicate sixteen standard-OPD updates with repeated evaluation."""
+"""Evaluate sixteen standard-OPD updates on 512 held-out problems."""
 
 from __future__ import annotations
 
@@ -15,7 +15,7 @@ from huggingface_hub import hf_hub_download, snapshot_download
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 VERL_OPD_DIR = REPO_ROOT / "relay-opd"
-WORK_DIR = Path("/tmp/standard-opd-sixteen-update-replicate")
+WORK_DIR = Path("/tmp/standard-opd-sixteen-update-eval512")
 STUDENT_REPO = "Qwen/Qwen3-1.7B"
 TEACHER_REPO = "Qwen/Qwen3-4B-Instruct-2507"
 DATA_REPO = "BytedTsinghua-SIA/DAPO-Math-17k"
@@ -53,7 +53,7 @@ def prepare_inputs() -> tuple[Path, Path, Path, Path, Path]:
     )
     frame = pd.read_parquet(source).head(16512).copy()
     train = frame.iloc[:2048].copy()
-    heldout = frame.iloc[16384:16512].copy()
+    heldout = frame.iloc[16000:16512].copy()
     train_path = data_dir / "dapo2048.parquet"
     # The official evaluator maps its generic DAPO entry to dapo128.parquet.
     heldout_path = bench_dir / "dapo128.parquet"
@@ -68,7 +68,7 @@ def prepare_inputs() -> tuple[Path, Path, Path, Path, Path]:
     print(
         f"[data] source={DATA_REPO}/{DATA_FILE} train_rows={len(train)} "
         f"heldout_rows={len(heldout)} train_slice=0:2048 "
-        f"heldout_slice=16384:16512 "
+        f"heldout_slice=16000:16512 "
         f"train={train_path} heldout={heldout_path} validation_enabled=False",
         flush=True,
     )
@@ -86,7 +86,7 @@ def main() -> None:
             "TRAIN_DATA": str(train_path),
             "BENCH": str(WORK_DIR / "bench"),
             "OUTPUT_DIR": str(output_dir),
-            "EXP_ID": "standard_opd_sixteen_update_replicate",
+            "EXP_ID": "standard_opd_sixteen_update_eval512",
             "TRAIN_BATCH_SIZE": "128",
             "PPO_MINI_BATCH_SIZE": "128",
             "MAX_PROMPT_LENGTH": "2048",
@@ -120,8 +120,8 @@ def main() -> None:
                 "student": STUDENT_REPO,
                 "teacher": TEACHER_REPO,
                 "train_rows": 2048,
-                "heldout_rows": 128,
-                "heldout_slice": "16384:16512",
+                "heldout_rows": 512,
+                "heldout_slice": "16000:16512",
                 "response_budget": 2048,
                 "updates": 16,
                 "actor_gpus": 4,
