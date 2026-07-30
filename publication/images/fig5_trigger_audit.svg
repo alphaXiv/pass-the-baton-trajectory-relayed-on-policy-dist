@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="560" viewBox="0 0 1000 560">
+<rect width="1000" height="560" fill="#fbfbf8"/>
+<text x="60" y="50" font-family="Arial" font-size="26" font-weight="700" fill="#182230">The paper and released code implement different takeover tests</text>
+<text x="60" y="78" font-family="Arial" font-size="15" fill="#52606d">Controlled audit case: teacher chooses reflection while another reflection token is in the student top-5</text>
+<line x1="120" y1="450.0" x2="920" y2="450.0" stroke="#d8dee6"/>
+<text x="108" y="455.0" text-anchor="end" font-family="Arial" font-size="13" fill="#667085">0</text>
+<line x1="120" y1="370.0" x2="920" y2="370.0" stroke="#d8dee6"/>
+<text x="108" y="375.0" text-anchor="end" font-family="Arial" font-size="13" fill="#667085">2</text>
+<line x1="120" y1="290.0" x2="920" y2="290.0" stroke="#d8dee6"/>
+<text x="108" y="295.0" text-anchor="end" font-family="Arial" font-size="13" fill="#667085">4</text>
+<line x1="120" y1="210.0" x2="920" y2="210.0" stroke="#d8dee6"/>
+<text x="108" y="215.0" text-anchor="end" font-family="Arial" font-size="13" fill="#667085">6</text>
+<line x1="120" y1="130.0" x2="920" y2="130.0" stroke="#d8dee6"/>
+<text x="108" y="135.0" text-anchor="end" font-family="Arial" font-size="13" fill="#667085">8</text>
+<rect x="260" y="450.0" width="180" height="0.0" rx="6" fill="#c27c71"/>
+<text x="350" y="436.0" text-anchor="middle" font-family="Arial" font-size="22" font-weight="700" fill="#182230">0/8</text>
+<text x="350.0" y="478.0" text-anchor="middle" font-family="Arial" font-size="13" fill="#344054">
+<tspan x="350.0" dy="0">Paper</tspan>
+<tspan x="350.0" dy="16">predicate</tspan>
+</text>
+<rect x="610" y="130.0" width="180" height="320.0" rx="6" fill="#287271"/>
+<text x="700" y="116.0" text-anchor="middle" font-family="Arial" font-size="22" font-weight="700" fill="#182230">8/8</text>
+<text x="700.0" y="478.0" text-anchor="middle" font-family="Arial" font-size="13" fill="#344054">
+<tspan x="700.0" dy="0">Released-code</tspan>
+<tspan x="700.0" dy="16">predicate</tspan>
+</text>
+<text x="26" y="310" transform="rotate(-90 26 310)" font-family="Arial" font-size="14" fill="#344054">GPU shards where takeover fired</text>
+<text x="500" y="535" text-anchor="middle" font-family="Arial" font-size="13" fill="#667085">Audit verdict: predicates are not equivalent; training results must be labeled by implementation.</text>
+</svg>

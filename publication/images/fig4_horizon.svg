@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="560" viewBox="0 0 1000 560">
+<rect width="1000" height="560" fill="#fbfbf8"/>
+<text x="60" y="50" font-family="Arial" font-size="26" font-weight="700" fill="#182230">Eight updates already produced a positive gain at 1024 tokens</text>
+<text x="60" y="78" font-family="Arial" font-size="15" fill="#52606d">Released trigger, K=5; the four-update deadline run produced no evidence</text>
+<line x1="95" y1="450.0" x2="940" y2="450.0" stroke="#d8dee6"/>
+<text x="83" y="455.0" text-anchor="end" font-family="Arial" font-size="13" fill="#667085">-1</text>
+<line x1="95" y1="374.4" x2="940" y2="374.4" stroke="#d8dee6"/>
+<text x="83" y="379.4" text-anchor="end" font-family="Arial" font-size="13" fill="#667085">0</text>
+<line x1="95" y1="298.9" x2="940" y2="298.9" stroke="#d8dee6"/>
+<text x="83" y="303.9" text-anchor="end" font-family="Arial" font-size="13" fill="#667085">1</text>
+<line x1="95" y1="223.3" x2="940" y2="223.3" stroke="#d8dee6"/>
+<text x="83" y="228.3" text-anchor="end" font-family="Arial" font-size="13" fill="#667085">2</text>
+<line x1="95" y1="147.8" x2="940" y2="147.8" stroke="#d8dee6"/>
+<text x="83" y="152.8" text-anchor="end" font-family="Arial" font-size="13" fill="#667085">3</text>
+<path d="M 95.0 256.4 L 517.5 263.8 L 940.0 197.4" fill="none" stroke="#287271" stroke-width="4"/>
+<circle cx="90.0" cy="212.1" r="5" fill="#ffffff" stroke="#182230" stroke-width="1.5"/>
+<circle cx="100.0" cy="300.7" r="5" fill="#ffffff" stroke="#182230" stroke-width="1.5"/>
+<circle cx="95.0" cy="256.4" r="8" fill="#2a9d8f" stroke="#ffffff" stroke-width="2"/>
+<text x="95.0" y="241.4" text-anchor="middle" font-family="Arial" font-size="14" font-weight="700" fill="#182230">+1.56</text>
+<text x="95.0" y="476" text-anchor="middle" font-family="Arial" font-size="14" fill="#344054">8</text>
+<circle cx="492.5" cy="138.3" r="5" fill="#ffffff" stroke="#182230" stroke-width="1.5"/>
+<circle cx="502.5" cy="212.1" r="5" fill="#ffffff" stroke="#182230" stroke-width="1.5"/>
+<circle cx="512.5" cy="256.4" r="5" fill="#ffffff" stroke="#182230" stroke-width="1.5"/>
+<circle cx="522.5" cy="374.4" r="5" fill="#ffffff" stroke="#182230" stroke-width="1.5"/>
+<circle cx="532.5" cy="330.2" r="5" fill="#ffffff" stroke="#182230" stroke-width="1.5"/>
+<circle cx="542.5" cy="271.1" r="5" fill="#ffffff" stroke="#182230" stroke-width="1.5"/>
+<circle cx="517.5" cy="263.8" r="8" fill="#2a9d8f" stroke="#ffffff" stroke-width="2"/>
+<text x="517.5" y="248.8" text-anchor="middle" font-family="Arial" font-size="14" font-weight="700" fill="#182230">+1.46</text>
+<text x="517.5" y="476" text-anchor="middle" font-family="Arial" font-size="14" fill="#344054">12</text>
+<circle cx="925.0" cy="167.8" r="5" fill="#ffffff" stroke="#182230" stroke-width="1.5"/>
+<circle cx="935.0" cy="35.0" r="5" fill="#ffffff" stroke="#182230" stroke-width="1.5"/>
+<circle cx="945.0" cy="94.1" r="5" fill="#ffffff" stroke="#182230" stroke-width="1.5"/>
+<circle cx="955.0" cy="492.5" r="5" fill="#ffffff" stroke="#182230" stroke-width="1.5"/>
+<circle cx="940.0" cy="197.4" r="8" fill="#2a9d8f" stroke="#ffffff" stroke-width="2"/>
+<text x="940.0" y="182.4" text-anchor="middle" font-family="Arial" font-size="14" font-weight="700" fill="#182230">+2.34</text>
+<text x="940.0" y="476" text-anchor="middle" font-family="Arial" font-size="14" fill="#344054">16</text>
+<text x="20" y="300" transform="rotate(-90 20 300)" font-family="Arial" font-size="14" fill="#344054">Accuracy change (percentage points)</text>
+<text x="517.5" y="510" text-anchor="middle" font-family="Arial" font-size="14" fill="#344054">Optimizer updates</text>
+<text x="950" y="535" text-anchor="end" font-family="Arial" font-size="12" fill="#667085">Dots: repeats; line: repeat mean</text>
+</svg>

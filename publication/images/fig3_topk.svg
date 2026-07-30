@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="560" viewBox="0 0 1000 560">
+<rect width="1000" height="560" fill="#fbfbf8"/>
+<text x="60" y="50" font-family="Arial" font-size="26" font-weight="700" fill="#182230">The takeover threshold has a broad optimum near K=5</text>
+<text x="60" y="78" font-family="Arial" font-size="15" fill="#52606d">Released trigger, 1536-token budget, 16 updates</text>
+<line x1="95" y1="450.0" x2="940" y2="450.0" stroke="#d8dee6"/>
+<text x="83" y="455.0" text-anchor="end" font-family="Arial" font-size="13" fill="#667085">-1</text>
+<line x1="95" y1="393.3" x2="940" y2="393.3" stroke="#d8dee6"/>
+<text x="83" y="398.3" text-anchor="end" font-family="Arial" font-size="13" fill="#667085">0</text>
+<line x1="95" y1="336.7" x2="940" y2="336.7" stroke="#d8dee6"/>
+<text x="83" y="341.7" text-anchor="end" font-family="Arial" font-size="13" fill="#667085">1</text>
+<line x1="95" y1="280.0" x2="940" y2="280.0" stroke="#d8dee6"/>
+<text x="83" y="285.0" text-anchor="end" font-family="Arial" font-size="13" fill="#667085">2</text>
+<line x1="95" y1="223.3" x2="940" y2="223.3" stroke="#d8dee6"/>
+<text x="83" y="228.3" text-anchor="end" font-family="Arial" font-size="13" fill="#667085">3</text>
+<line x1="95" y1="166.7" x2="940" y2="166.7" stroke="#d8dee6"/>
+<text x="83" y="171.7" text-anchor="end" font-family="Arial" font-size="13" fill="#667085">4</text>
+<line x1="95" y1="110.0" x2="940" y2="110.0" stroke="#d8dee6"/>
+<text x="83" y="115.0" text-anchor="end" font-family="Arial" font-size="13" fill="#667085">5</text>
+<path d="M 95.0 257.8 L 376.7 205.2 L 658.3 310.3 L 940.0 349.1" fill="none" stroke="#287271" stroke-width="4"/>
+<circle cx="80.0" cy="315.9" r="5" fill="#ffffff" stroke="#182230" stroke-width="1.5"/>
+<circle cx="90.0" cy="83.4" r="5" fill="#ffffff" stroke="#182230" stroke-width="1.5"/>
+<circle cx="100.0" cy="371.2" r="5" fill="#ffffff" stroke="#182230" stroke-width="1.5"/>
+<circle cx="110.0" cy="260.5" r="5" fill="#ffffff" stroke="#182230" stroke-width="1.5"/>
+<circle cx="95.0" cy="257.8" r="8" fill="#2a9d8f" stroke="#ffffff" stroke-width="2"/>
+<text x="95.0" y="242.8" text-anchor="middle" font-family="Arial" font-size="14" font-weight="700" fill="#182230">+2.39</text>
+<text x="95.0" y="476" text-anchor="middle" font-family="Arial" font-size="14" fill="#344054">3</text>
+<circle cx="361.7" cy="39.2" r="5" fill="#ffffff" stroke="#182230" stroke-width="1.5"/>
+<circle cx="371.7" cy="172.0" r="5" fill="#ffffff" stroke="#182230" stroke-width="1.5"/>
+<circle cx="381.7" cy="304.8" r="5" fill="#ffffff" stroke="#182230" stroke-width="1.5"/>
+<circle cx="391.7" cy="304.8" r="5" fill="#ffffff" stroke="#182230" stroke-width="1.5"/>
+<circle cx="376.7" cy="205.2" r="8" fill="#2a9d8f" stroke="#ffffff" stroke-width="2"/>
+<text x="376.7" y="190.2" text-anchor="middle" font-family="Arial" font-size="14" font-weight="700" fill="#182230">+3.32</text>
+<text x="376.7" y="476" text-anchor="middle" font-family="Arial" font-size="14" fill="#344054">5</text>
+<circle cx="653.3" cy="326.9" r="5" fill="#ffffff" stroke="#182230" stroke-width="1.5"/>
+<circle cx="663.3" cy="293.7" r="5" fill="#ffffff" stroke="#182230" stroke-width="1.5"/>
+<circle cx="658.3" cy="310.3" r="8" fill="#2a9d8f" stroke="#ffffff" stroke-width="2"/>
+<text x="658.3" y="295.3" text-anchor="middle" font-family="Arial" font-size="14" font-weight="700" fill="#182230">+1.46</text>
+<text x="658.3" y="476" text-anchor="middle" font-family="Arial" font-size="14" fill="#344054">7</text>
+<circle cx="935.0" cy="293.7" r="5" fill="#ffffff" stroke="#182230" stroke-width="1.5"/>
+<circle cx="945.0" cy="404.4" r="5" fill="#ffffff" stroke="#182230" stroke-width="1.5"/>
+<circle cx="940.0" cy="349.1" r="8" fill="#2a9d8f" stroke="#ffffff" stroke-width="2"/>
+<text x="940.0" y="334.1" text-anchor="middle" font-family="Arial" font-size="14" font-weight="700" fill="#182230">+0.78</text>
+<text x="940.0" y="476" text-anchor="middle" font-family="Arial" font-size="14" fill="#344054">10</text>
+<text x="20" y="300" transform="rotate(-90 20 300)" font-family="Arial" font-size="14" fill="#344054">Accuracy change (percentage points)</text>
+<text x="517.5" y="510" text-anchor="middle" font-family="Arial" font-size="14" fill="#344054">Student top-K threshold</text>
+<text x="950" y="535" text-anchor="end" font-family="Arial" font-size="12" fill="#667085">Dots: repeats; line: repeat mean</text>
+</svg>

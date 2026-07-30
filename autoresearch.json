@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "paperId": "2607.26057",
+  "title": "Reduced-Scale Relay OPD Reproduction",
+  "description": "Released-code Relay OPD produced repeatable reduced-scale accuracy gains, while the paper-formula trigger was weaker and not equivalent.",
+  "verdict": "partially-reproduced",
+  "reportPath": "publication/report.md",
+  "notebookPath": "publication/reproduction.py",
+  "compute": {
+    "backend": "kubernetes",
+    "gpuModel": "NVIDIA RTX PRO 6000 Blackwell",
+    "gpuCount": 16,
+    "wallHours": 11.980241
+  }
+}

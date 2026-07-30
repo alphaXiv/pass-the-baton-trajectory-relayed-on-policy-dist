@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="560" viewBox="0 0 1000 560">
+<rect width="1000" height="560" fill="#fbfbf8"/>
+<text x="60" y="50" font-family="Arial" font-size="26" font-weight="700" fill="#182230">A 1280-token training budget was the strongest tested setting</text>
+<text x="60" y="78" font-family="Arial" font-size="15" fill="#52606d">Released trigger, K=5, one takeover, four teacher paragraphs, 16 updates</text>
+<line x1="95" y1="450.0" x2="940" y2="450.0" stroke="#d8dee6"/>
+<text x="83" y="455.0" text-anchor="end" font-family="Arial" font-size="13" fill="#667085">-1</text>
+<line x1="95" y1="393.3" x2="940" y2="393.3" stroke="#d8dee6"/>
+<text x="83" y="398.3" text-anchor="end" font-family="Arial" font-size="13" fill="#667085">0</text>
+<line x1="95" y1="336.7" x2="940" y2="336.7" stroke="#d8dee6"/>
+<text x="83" y="341.7" text-anchor="end" font-family="Arial" font-size="13" fill="#667085">1</text>
+<line x1="95" y1="280.0" x2="940" y2="280.0" stroke="#d8dee6"/>
+<text x="83" y="285.0" text-anchor="end" font-family="Arial" font-size="13" fill="#667085">2</text>
+<line x1="95" y1="223.3" x2="940" y2="223.3" stroke="#d8dee6"/>
+<text x="83" y="228.3" text-anchor="end" font-family="Arial" font-size="13" fill="#667085">3</text>
+<line x1="95" y1="166.7" x2="940" y2="166.7" stroke="#d8dee6"/>
+<text x="83" y="171.7" text-anchor="end" font-family="Arial" font-size="13" fill="#667085">4</text>
+<line x1="95" y1="110.0" x2="940" y2="110.0" stroke="#d8dee6"/>
+<text x="83" y="115.0" text-anchor="end" font-family="Arial" font-size="13" fill="#667085">5</text>
+<path d="M 95.0 260.5 L 376.7 202.4 L 658.3 266.1 L 940.0 205.2" fill="none" stroke="#287271" stroke-width="4"/>
+<circle cx="80.0" cy="238.4" r="5" fill="#ffffff" stroke="#182230" stroke-width="1.5"/>
+<circle cx="90.0" cy="138.8" r="5" fill="#ffffff" stroke="#182230" stroke-width="1.5"/>
+<circle cx="100.0" cy="183.0" r="5" fill="#ffffff" stroke="#182230" stroke-width="1.5"/>
+<circle cx="110.0" cy="481.9" r="5" fill="#ffffff" stroke="#182230" stroke-width="1.5"/>
+<circle cx="95.0" cy="260.5" r="8" fill="#2a9d8f" stroke="#ffffff" stroke-width="2"/>
+<text x="95.0" y="245.5" text-anchor="middle" font-family="Arial" font-size="14" font-weight="700" fill="#182230">+2.34</text>
+<text x="95.0" y="476" text-anchor="middle" font-family="Arial" font-size="14" fill="#344054">1024</text>
+<circle cx="361.7" cy="94.5" r="5" fill="#ffffff" stroke="#182230" stroke-width="1.5"/>
+<circle cx="371.7" cy="127.7" r="5" fill="#ffffff" stroke="#182230" stroke-width="1.5"/>
+<circle cx="381.7" cy="382.3" r="5" fill="#ffffff" stroke="#182230" stroke-width="1.5"/>
+<circle cx="391.7" cy="205.2" r="5" fill="#ffffff" stroke="#182230" stroke-width="1.5"/>
+<circle cx="376.7" cy="202.4" r="8" fill="#2a9d8f" stroke="#ffffff" stroke-width="2"/>
+<text x="376.7" y="187.4" text-anchor="middle" font-family="Arial" font-size="14" font-weight="700" fill="#182230">+3.37</text>
+<text x="376.7" y="476" text-anchor="middle" font-family="Arial" font-size="14" fill="#344054">1280</text>
+<circle cx="653.3" cy="326.9" r="5" fill="#ffffff" stroke="#182230" stroke-width="1.5"/>
+<circle cx="663.3" cy="205.2" r="5" fill="#ffffff" stroke="#182230" stroke-width="1.5"/>
+<circle cx="658.3" cy="266.1" r="8" fill="#2a9d8f" stroke="#ffffff" stroke-width="2"/>
+<text x="658.3" y="251.1" text-anchor="middle" font-family="Arial" font-size="14" font-weight="700" fill="#182230">+2.25</text>
+<text x="658.3" y="476" text-anchor="middle" font-family="Arial" font-size="14" fill="#344054">1408</text>
+<circle cx="925.0" cy="39.2" r="5" fill="#ffffff" stroke="#182230" stroke-width="1.5"/>
+<circle cx="935.0" cy="172.0" r="5" fill="#ffffff" stroke="#182230" stroke-width="1.5"/>
+<circle cx="945.0" cy="304.8" r="5" fill="#ffffff" stroke="#182230" stroke-width="1.5"/>
+<circle cx="955.0" cy="304.8" r="5" fill="#ffffff" stroke="#182230" stroke-width="1.5"/>
+<circle cx="940.0" cy="205.2" r="8" fill="#2a9d8f" stroke="#ffffff" stroke-width="2"/>
+<text x="940.0" y="190.2" text-anchor="middle" font-family="Arial" font-size="14" font-weight="700" fill="#182230">+3.32</text>
+<text x="940.0" y="476" text-anchor="middle" font-family="Arial" font-size="14" fill="#344054">1536</text>
+<text x="20" y="300" transform="rotate(-90 20 300)" font-family="Arial" font-size="14" fill="#344054">Accuracy change (percentage points)</text>
+<text x="517.5" y="510" text-anchor="middle" font-family="Arial" font-size="14" fill="#344054">Training response budget (tokens)</text>
+<text x="950" y="535" text-anchor="end" font-family="Arial" font-size="12" fill="#667085">Dots: repeats; line: repeat mean</text>
+</svg>
