@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Evaluate base and trained actors on one disjoint DAPO slice."""
+"""Evaluate base and trained actors on a 512-problem disjoint DAPO slice."""
 
 from __future__ import annotations
 
@@ -16,10 +16,10 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 EVAL_SCRIPT = REPO_ROOT / "relay-opd" / "opd" / "eval" / "math_benchmarks.py"
 GRADER = REPO_ROOT / "relay-opd" / "opd" / "reward" / "grader"
 N_SHARDS = 8
-N_PROBLEMS = 128
+N_PROBLEMS = 512
 MAX_NEW = 2048
 SEED = 314159
-N_REPEATS = 3
+N_REPEATS = 2
 
 
 def evaluate(label: str, model: Path, data: Path, seed: int) -> dict:
