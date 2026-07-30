@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Evaluate the promoted Relay recipe at half learning rate."""
+"""Evaluate the promoted half-rate Relay recipe after twenty updates."""
 
 from __future__ import annotations
 
@@ -15,7 +15,7 @@ from huggingface_hub import hf_hub_download, snapshot_download
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 VERL_OPD_DIR = REPO_ROOT / "relay-opd"
-WORK_DIR = Path("/tmp/relay-opd-released-m1-l4-response1536-lr5e-7")
+WORK_DIR = Path("/tmp/relay-opd-released-m1-l4-response1536-lr5e-7-step20")
 STUDENT_REPO = "Qwen/Qwen3-1.7B"
 TEACHER_REPO = "Qwen/Qwen3-4B-Instruct-2507"
 DATA_REPO = "BytedTsinghua-SIA/DAPO-Math-17k"
@@ -86,7 +86,7 @@ def main() -> None:
             "TRAIN_DATA": str(train_path),
             "BENCH": str(WORK_DIR / "bench"),
             "OUTPUT_DIR": str(output_dir),
-            "EXP_ID": "released_trigger_relay_m1_l4_response1536_lr5e_7",
+            "EXP_ID": "released_trigger_relay_m1_l4_response1536_lr5e_7_step20",
             "TRAIN_BATCH_SIZE": "128",
             "PPO_MINI_BATCH_SIZE": "128",
             "MAX_PROMPT_LENGTH": "2048",
@@ -103,17 +103,17 @@ def main() -> None:
             "RELAY_OPD_PARAGRAPHS_PER_TAKEOVER": "4",
             "ROLLOUT_GPU_MEMORY_UTILIZATION": "0.45",
             "TEACHER_GPU_MEMORY_UTILIZATION": "0.45",
-            "SAVE_FREQ": "16",
+            "SAVE_FREQ": "20",
             "TEST_FREQ": "-1",
             "VAL_BEFORE_TRAIN": "False",
-            "TOTAL_EPOCHS": "1",
+            "TOTAL_EPOCHS": "2",
             "WANDB_MODE": "disabled",
         }
     )
     command = [
         "bash",
         "opd/scripts/relay_opd/train.sh",
-        "trainer.total_training_steps=16",
+        "trainer.total_training_steps=20",
     ]
     print(
         "TRAINING_CONFIG "
@@ -125,7 +125,7 @@ def main() -> None:
                 "heldout_rows": 128,
                 "heldout_slice": "16384:16512",
                 "response_budget": 1536,
-                "updates": 16,
+                "updates": 20,
                 "actor_lr": 5e-7,
                 "actor_gpus": 4,
                 "teacher_gpus": 4,
@@ -140,7 +140,7 @@ def main() -> None:
         flush=True,
     )
     subprocess.run(command, cwd=VERL_OPD_DIR, env=env, check=True)
-    checkpoint = output_dir / "global_step_16" / "actor" / "huggingface"
+    checkpoint = output_dir / "global_step_20" / "actor" / "huggingface"
     if not (checkpoint / "config.json").is_file():
         raise FileNotFoundError(f"Expected full HF checkpoint at {checkpoint}")
     checkpoint_bytes = sum(
@@ -152,7 +152,7 @@ def main() -> None:
             {
                 "path": str(checkpoint),
                 "bytes": checkpoint_bytes,
-                "global_step": 16,
+                "global_step": 20,
                 "config_present": True,
             },
             sort_keys=True,
@@ -176,7 +176,7 @@ def main() -> None:
         + json.dumps(
             {
                 "status": "PASS",
-                "optimizer_updates": 16,
+                "optimizer_updates": 20,
                 "checkpoint_evaluated": True,
                 "wall_seconds": time.monotonic() - started,
             },
